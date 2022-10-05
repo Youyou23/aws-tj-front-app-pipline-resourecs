@@ -1,0 +1,5 @@
+aws ssm put-parameter \
+    --name "/golden-images/amazon-linux-2" \
+    --value YOUR_AMI_ID \
+    --type "String" \
+    --region YOUR_REGION
