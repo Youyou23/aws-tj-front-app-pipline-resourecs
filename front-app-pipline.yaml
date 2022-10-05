@@ -260,7 +260,7 @@ Resources:
           - '/'
           - !Ref RepositoryName
         Type:  GITHUB
-        BuildSpec: 01api/petstore-api-buildspec.yml
+        BuildSpec: aws-build-test-deploy/front-app-buildspec.yml 
       TimeoutInMinutes: 10
       Tags:
       - Key: Name
