@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Secrets creation for pipeline creation.
+
+Parameters:
+  githubtoken:
+    Description: token for GitHub Access
+    Type: String
+    NoEcho: "true"
+    MinLength: "1"
+
+Resources:
+  GithubConnParams:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: Github Connection Parameters.
+      Name: GithubTokenConnParams
+      SecretString: !Sub |
+        {
+          "GithubPullToken": "${githubtoken}"
+        }
+  S3BucketFrontApp:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: trading-journal-front-app
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+  BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref S3BucketFrontApp
+                - /*
+      Bucket: !Ref S3BucketFrontApp
+Outputs:
+  PublicFrontHostingBucketName:
+    Value: !Ref S3BucketFrontApp
+    Description: Name of the sample Amazon S3 bucket with CORS enabled.
+    Export:
+      Name: s3-static-front-hosting 
+  WebsiteURL:
+    Value: !GetAtt
+      - S3BucketFrontApp
+      - WebsiteURL
+    Description: URL for website hosted on S3
