@@ -245,8 +245,8 @@ Resources:
               Resource:
               - Fn::Sub: arn:aws:s3:::${CodePipelineArtifactStoreBucket}/*
               - Fn::Sub: arn:aws:s3:::${CodePipelineArtifactStoreBucket}
-              - Fn::Sub: arn:aws:s3:::my-trading-app-static-web/*
-              - Fn::Sub: arn:aws:s3:::my-trading-app-static-web
+              #- Fn::Sub: arn:aws:s3:::my-trading-app-static-web/*
+              #- Fn::Sub: arn:aws:s3:::my-trading-app-static-web
             -
               Effect: "Allow"
               Action:
@@ -263,7 +263,8 @@ Resources:
         Fn::GetAtt: [ CodeBuildServiceRole, Arn ]
       Artifacts:
         Type: S3
-        Location: 'my-trading-app-static-web'
+        #Location: 'my-trading-app-static-web'
+        Location: !Sub ${CodePipelineArtifactStoreBucket}
         Name: '/'
       Environment:
         Type: LINUX_CONTAINER

@@ -27,7 +27,7 @@ Resources:
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
-        ErrorDocument: error.html
+        ErrorDocument: index.html
   BucketPolicy:
     Type: 'AWS::S3::BucketPolicy'
     Properties:

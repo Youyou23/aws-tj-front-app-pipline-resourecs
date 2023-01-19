@@ -3,3 +3,6 @@ aws ssm put-parameter \
     --value YOUR_AMI_ID \
     --type "String" \
     --region YOUR_REGION
+
+## validate template locally before executing on the server : 
+cfn-lint aws-front-app-resources-allocation.yaml 
